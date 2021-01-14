@@ -27,6 +27,8 @@
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefautConnection"));
             });
 
+            services.AddTransient<SeedDb>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
