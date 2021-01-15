@@ -1,8 +1,7 @@
 ﻿namespace Store.Web.Data
-{  
+{
     using Store.Web.Data.Entities;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,9 +9,9 @@
     {
         private readonly DataContext context;
 
-        private Random random;
+        private readonly Random random;
 
-        public SeedDb(DataContext context) 
+        public SeedDb(DataContext context)
         {
             this.context = context;
 
@@ -23,7 +22,7 @@
         {
             await this.context.Database.EnsureCreatedAsync();
 
-            if(!this.context.Products.Any())
+            if (!this.context.Products.Any())
             {
                 this.AddProducts("Equipamento oficial SLB");
                 this.AddProducts("Chuteiras oficiais");
