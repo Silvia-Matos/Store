@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
     using Data.Entities;
-    
+    using Store.Web.Models;
 
     public interface IUserHelper
     {
@@ -12,5 +12,8 @@
 
         Task<IdentityResult> AddUserAsync(User user, string password);
 
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        Task LogoutAsync();
     }
 }
