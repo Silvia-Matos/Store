@@ -12,7 +12,6 @@
     using Store.Web.Models;
     
 
-
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -30,7 +29,7 @@
             return View(this.productRepository.GetAll()/*.OrderBy(p => p.Name)*/);
         }
 
-        [Authorize]
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,8 +47,9 @@
             return View(product);
         }
 
-        [Authorize]
+
         // GET: Products/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -77,7 +77,7 @@
                         "wwwroot\\images\\Products",
                         file);
 
-                    using(var stream = new FileStream(path,FileMode.Create))
+                    using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await view.ImageFile.CopyToAsync(stream);
                     }
@@ -111,8 +111,9 @@
             };
         }
 
-        [Authorize]
+
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -151,7 +152,7 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,ImageUrl,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
         {
 
             if (ModelState.IsValid)
@@ -184,7 +185,7 @@
                     }
 
                     var product = this.ToProduct(view, path);
-                    
+
                     product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await this.productRepository.UpdateAsync(product);
                 }
@@ -204,8 +205,9 @@
             return View(view);
         }
 
-        [Authorize]
+
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
